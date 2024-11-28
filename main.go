@@ -1,31 +1,18 @@
 package main
 
 import (
-	"bufio"
-	"os"
 	"fmt"
+	lemin "lemin/utils"
+	"os"
 )
 
-func main(){
-	if len(os.Args) != 2 {
-		fmt.Println("Please provide a file")
-		return
-	}
-
-	file, err := os.Open(os.Args[1])
-	if err != nil {
-		fmt.Println("Error reading from file.")
-		return
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan(){
-		line := scanner.Text()
-		fmt.Println(line)
-	}
-	// Check for any errors during scanning
-	if err := scanner.Err(); err != nil {
-		fmt.Println("Error reading file:", err)
+func main() {
+	if len(os.Args) == 2 {
+		filename := os.Args[1]
+		antNum, g := lemin.ReadFile(filename)
+		group := g.GetBestPath(antNum)
+		g.SendAnts(group, antNum)
+	} else if len(os.Args) < 2 {
+		fmt.Println("Invalid number of arguments.")
 	}
 }
