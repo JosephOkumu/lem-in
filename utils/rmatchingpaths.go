@@ -1,6 +1,7 @@
 package lemin
 
-func hasSimilarPath(groups [][][]string, g1 [][]string) bool {
+// matchingPaths finds groups that have matching paths
+func matchingPaths(groups [][][]string, g1 [][]string) bool {
 	for _, g2 := range groups {
 		if len(g1) == len(g2) {
 			var ok = make([]bool, len(g1))
@@ -26,17 +27,16 @@ func hasSimilarPath(groups [][][]string, g1 [][]string) bool {
 	return false
 }
 
-// RmSimilarPaths removes groups that have same length and same lengths of paths
-func (g *Graph) RmSimilarPaths() {
+// RmatchingPaths removes groups that have same length and same lengths of paths
+func (graph *Graph) RmatchingPaths() {
 	var newGroup = [][][]string{}
 	for i1, g1 := range PathGroups {
 		if len(g1) == 1 && i1 != 0 {
 			continue
 		}
-		if !hasSimilarPath(newGroup, g1) {
+		if !matchingPaths(newGroup, g1) {
 			newGroup = append(newGroup, g1)
 		}
 	}
 	PathGroups = newGroup
-	// fmt.Println("cleaned path groups:", pathGroups)
 }

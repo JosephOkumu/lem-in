@@ -16,7 +16,7 @@ func check(err error) {
 
 // ParseFile extracts number of ants, rooms, rooms connections from given file
 func ReadFile(filename string) (int, Graph) {
-	var g Graph
+	var graph Graph
 
 	data, err := os.ReadFile(filename)
 	check(err)
@@ -64,24 +64,24 @@ func ReadFile(filename string) (int, Graph) {
 				fmt.Println("ERROR: invalid data format")
 				os.Exit(0)
 			} else {
-				g.Connect(rooms[0], rooms[1])
+				graph.Connect(rooms[0], rooms[1])
 				continue
 			}
 
 		}
 
 		if flag == "start" {
-			g.Start = splitted[0]
+			graph.Start = splitted[0]
 			// fmt.Println(g.Start)
 		} else if flag == "end" {
-			g.End = splitted[0]
+			graph.End = splitted[0]
 		}
-		if g.Start == "L" || g.End == "L" {
+		if graph.Start == "L" || graph.End == "L" {
 			fmt.Println("ERROR: invalid data format")
 			os.Exit(1)
 		}
 		flag = "room"
 	}
 
-	return antNum, g
+	return antNum, graph
 }

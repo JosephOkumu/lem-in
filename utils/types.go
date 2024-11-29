@@ -15,12 +15,12 @@ type Ant struct {
 }
 
 // Connect links two rooms with a bidirectional tunnel.
-func (g *Graph) Connect(room1, room2 string) {
-	if g.Links == nil {
-		g.Links = make(map[string][]string)
+func (graph *Graph) Connect(room1, room2 string) {
+	if graph.Links == nil {
+		graph.Links = make(map[string][]string)
 	}
-	g.Links[room1] = append(g.Links[room1], room2)
-	g.Links[room2] = append(g.Links[room2], room1)
+	graph.Links[room1] = append(graph.Links[room1], room2)
+	graph.Links[room2] = append(graph.Links[room2], room1)
 }
 
 

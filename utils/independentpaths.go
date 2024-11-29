@@ -22,9 +22,9 @@ func intersects(group [][]string, path []string) bool {
 // PathGroups - groups of non-intersecting paths
 var PathGroups = [][][]string{}
 
-// GetNonInterPaths gets all non intersecting paths and groups them
-func (g *Graph) GetNonInterPaths() {
-	g.SortPaths()
+// GetIndependentPaths gets all non intersecting paths and groups them
+func (graph *Graph) GetIndependentPaths() {
+	graph.SortPaths()
 	// trim start room bc we don't need it
 	for i, p := range Paths {
 		Paths[i] = p[1:]
@@ -51,7 +51,7 @@ func (g *Graph) GetNonInterPaths() {
 }
 
 // SortPaths sorts paths by their length
-func (g *Graph) SortPaths() {
+func (graph *Graph) SortPaths() {
 	for i1 := 0; i1 < len(Paths); i1++ {
 		for i2 := 0; i2 < len(Paths); i2++ {
 			if len(Paths[i1]) < len(Paths[i2]) {
@@ -59,5 +59,4 @@ func (g *Graph) SortPaths() {
 			}
 		}
 	}
-	// fmt.Println("sorted paths:", paths)
 }

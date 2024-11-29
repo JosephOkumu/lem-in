@@ -6,23 +6,23 @@ import (
 )
 
 // GetBestPath gets one optimal path
-func (g *Graph) GetBestPath(ants int) [][]string {
-	g.GetAllPaths(g.Start)
+func (graph *Graph) GetBestPath(ants int) [][]string {
+	graph.GetAllPaths(graph.Start)
 
 	for _, path := range Paths {
 		if len(path) == 2 {
 			fmt.Println(InputData)
 			fmt.Println()
 			for i := 1; i <= ants; i++ {
-				fmt.Print("L", i, "-", g.End, " ")
+				fmt.Print("L", i, "-", graph.End, " ")
 			}
 			fmt.Println("")
 			os.Exit(0)
 		}
 	}
 
-	g.GetNonInterPaths()
-	g.RmSimilarPaths()
+	graph.GetIndependentPaths()
+	graph.RmatchingPaths()
 
 	var min int
 	var heights = make(map[int][][]string)
