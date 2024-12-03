@@ -43,3 +43,61 @@ func TestAntStruct(t *testing.T) {
 		t.Errorf("Ant should not be inactive")
 	}
 }
+
+func TestGetAllPaths(t *testing.T) {
+	// Create a mock graph structure
+	graph := &Graph{
+		Start: "A",
+		End:   "D",
+		Links: map[string][]string{
+			"A": {"B", "C"},
+			"B": {"D"},
+			"C": {"D"},
+			"D": {},
+		},
+	}
+
+	// Expected paths
+	expectedPaths := [][]string{
+		{"A", "B", "D"},
+		{"A", "C", "D"},
+	}
+
+	// Clear the global Paths slice before testing
+	Paths = [][]string{}
+
+	// Call the function
+	graph.GetAllPaths(graph.Start)
+
+	// Verify the number of paths
+	if len(Paths) != len(expectedPaths) {
+		t.Errorf("Expected %d paths, but got %d", len(expectedPaths), len(Paths))
+	}
+
+	// Verify the contents of each path
+	for _, expectedPath := range expectedPaths {
+		found := false
+		for _, actualPath := range Paths {
+			if equalSlices(expectedPath, actualPath) {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Errorf("Expected path %v not found in actual paths %v", expectedPath, Paths)
+		}
+	}
+}
+
+// Helper function to compare two slices for equality
+func equalSlices(a, b []string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
