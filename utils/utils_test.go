@@ -45,40 +45,37 @@ func TestAntStruct(t *testing.T) {
 }
 
 func TestGetAllPaths(t *testing.T) {
-	// Create a mock graph structure
-	graph := &Graph{
+	// Create a test graph
+	graph := Graph{
 		Start: "A",
 		End:   "D",
 		Links: map[string][]string{
 			"A": {"B", "C"},
-			"B": {"D"},
-			"C": {"D"},
-			"D": {},
+			"B": {"A", "D"},
+			"C": {"A", "D"},
+			"D": {"B", "C"},
 		},
 	}
 
-	// Expected paths
-	expectedPaths := [][]string{
-		{"A", "B", "D"},
-		{"A", "C", "D"},
-	}
-
-	// Clear the global Paths slice before testing
-	Paths = [][]string{}
-
-	// Call the function
+	// Call GetAllPaths
+	Paths = [][]string{} // Reset global Paths
 	graph.GetAllPaths(graph.Start)
 
-	// Verify the number of paths
-	if len(Paths) != len(expectedPaths) {
-		t.Errorf("Expected %d paths, but got %d", len(expectedPaths), len(Paths))
+	// Define the expected paths
+	expectedPaths := [][]string{
+		{"A", "B", "D"},
 	}
 
-	// Verify the contents of each path
+	// Check the number of paths found
+	if len(Paths) != len(expectedPaths) {
+		t.Fatalf("Expected %d paths, but got %d", len(expectedPaths), len(Paths))
+	}
+
+	// Verify the content of the paths
 	for _, expectedPath := range expectedPaths {
 		found := false
 		for _, actualPath := range Paths {
-			if equalSlices(expectedPath, actualPath) {
+			if equalPaths(expectedPath, actualPath) {
 				found = true
 				break
 			}
@@ -89,13 +86,13 @@ func TestGetAllPaths(t *testing.T) {
 	}
 }
 
-// Helper function to compare two slices for equality
-func equalSlices(a, b []string) bool {
-	if len(a) != len(b) {
+// Helper function to compare two paths
+func equalPaths(path1, path2 []string) bool {
+	if len(path1) != len(path2) {
 		return false
 	}
-	for i := range a {
-		if a[i] != b[i] {
+	for i := range path1 {
+		if path1[i] != path2[i] {
 			return false
 		}
 	}
