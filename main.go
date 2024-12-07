@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-	//Checking if we have the good lenght of argument
 	if len(os.Args) != 2 {
 		fmt.Println("Invalid Input, Usage: go run . [filename]")
 		return

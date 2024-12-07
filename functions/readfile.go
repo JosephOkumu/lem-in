@@ -11,7 +11,7 @@ import (
 // ReadFile reads the file, validates the contents and stores Room
 func (RoomArray *Graph) ReadFile(filename string) bool {
 	// Opening the file
-	file, err := os.Open("./examples/" + filename + ".txt")
+	file, err := os.Open("./examples/" + filename)
 	if err != nil {
 		return false
 	}
