@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// ? Function that will attribute names to our Ants
+//  Function that gives ants names
 func (graph *Graph) NameAnt() {
 	antsNum := graph.AntCount
 
@@ -15,7 +15,7 @@ func (graph *Graph) NameAnt() {
 	}
 }
 
-// ? Function that will move our Ants and print the movements
+// This function moves ants
 func SimulateAntMovement(paths [][]string, antDistribution [][]int) {
 	type AntPosition struct {
 		ant  int
