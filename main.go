@@ -18,9 +18,9 @@ func main() {
 	RoomStruct := functions.RoomStruct{}
 
 	//Checking if the file is valid or not
-	correctfile := RoomStruct.CheckLemin(filename)
+	correctfile := RoomStruct.ReadFile(filename)
 	if !correctfile {
-		//If not we just return
+		fmt.Println("Error: problem reading file")
 		return
 	}
 
