@@ -5,7 +5,7 @@ import (
 )
 
 // ? Function that will attribute Ants to a path they are going to use
-func DistributeAnts(paths [][]string, numAnts int) [][]int {
+func PlaceAnts(paths [][]string, numAnts int) [][]int {
 	distribution := make([][]int, len(paths))
 	pathLengths := make([]int, len(paths))
 	for i, path := range paths {

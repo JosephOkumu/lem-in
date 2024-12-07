@@ -7,11 +7,11 @@ import (
 )
 
 // ? Function that will attribute names to our Ants
-func (antTab *RoomStruct) NameAnt() {
-	antsNumber := antTab.Ants
+func (graph *Graph) NameAnt() {
+	antsNum := graph.AntCount
 
-	for i := 1; i <= antsNumber; i++ {
-		antTab.tabAntName = append(antTab.tabAntName, "L"+strconv.Itoa(i))
+	for i := 1; i <= antsNum; i++ {
+		graph.AntNames = append(graph.AntNames, "L"+strconv.Itoa(i))
 	}
 }
 
@@ -57,6 +57,6 @@ func SimulateAntMovement(paths [][]string, antDistribution [][]int) {
 		antPositions = newPositions
 		count++
 	}
-	fmt.Println("---------------------------------------------------------------------------------------")
-	println("Number of move: ", count-1)
+	// Print number of moves
+	// println("Number of move: ", count-1)
 }

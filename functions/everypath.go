@@ -5,18 +5,13 @@ import (
 )
 
 // ?Function that will get us all the possible paths with the BFS Algorithm
-func FindAllPathsBFS(rooms map[string]*Rooms, start, end string) [][]string {
+func GetAllPaths(Room map[string]*ARoom, start, end string) [][]string {
 	var paths [][]string
 	queue := list.New()
 	queue.PushBack([]string{start})
 
 	//While we have paths that didn't reach end yet, we continue
 	for queue.Len() > 0 {
-		// Print the current state of the queue
-		// fmt.Println("Current queue:")
-		// for e := queue.Front(); e != nil; e = e.Next() {
-		// 	fmt.Printf("%v ", e.Value)
-		// }
 
 		//Removing the first element of the queue and storing it on the path variable
 		path := queue.Remove(queue.Front()).([]string)
@@ -32,10 +27,9 @@ func FindAllPathsBFS(rooms map[string]*Rooms, start, end string) [][]string {
 		}
 
 		//We explore all the links of the current room
-		for _, nextRoom := range rooms[lastRoom].Links {
-			//If the link we are heading isn't contained in our path, then we move
+		for _, nextRoom := range Room[lastRoom].Links {
 			if !contains(path, nextRoom) {
-				//Creating a new path that will have the same lenght as the current path
+				//Creating a new path that will have the same length as the current path
 				newPath := make([]string, len(path))
 				copy(newPath, path)
 				newPath = append(newPath, nextRoom)
@@ -46,15 +40,13 @@ func FindAllPathsBFS(rooms map[string]*Rooms, start, end string) [][]string {
 	return paths
 }
 
-// ?Function that will check that the path we are heading isn't already used
-// ?to avoid getting into an infinite loop
+
 func contains(slice []string, element string) bool {
 	for _, current := range slice {
 		if current == element {
-			//If the element is already there we return true
 			return true
 		}
 	}
-	//Otherwise we return false
+	
 	return false
 }

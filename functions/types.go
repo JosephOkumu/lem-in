@@ -1,20 +1,20 @@
 package functions
 
-//Struct that will store a single room informations
-type Rooms struct {
-	Name    string
-	X_value int
-	Y_value int
-	Links   []string
-	Visited bool
+//Struct that will store all informations needed
+type Graph struct {
+	AntCount         int
+	AntNames   []string
+	Rooms      []ARoom
+	AllPaths      [][]string
+	StartRoom  ARoom
+	EndRoom   ARoom
 }
 
-//Struct that will store all informations needed
-type RoomStruct struct {
-	Ants         int
-	tabAntName   []string
-	AllRooms     []Rooms
-	AllPath      [][]string
-	StartingRoom Rooms
-	EndingRoom   Rooms
+//Struct that will store a single room informations
+type ARoom struct {
+	Name    string
+	XCoordinate int
+	YCoordinate int
+	Links   []string
+	Visited bool
 }

@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-// ReadFile reads the file, validates the contents and stores rooms
-func (RoomArray *RoomStruct) ReadFile(filename string) bool {
+// ReadFile reads the file, validates the contents and stores Room
+func (RoomArray *Graph) ReadFile(filename string) bool {
 	// Opening the file
 	file, err := os.Open("./examples/" + filename + ".txt")
 	if err != nil {
@@ -17,7 +17,7 @@ func (RoomArray *RoomStruct) ReadFile(filename string) bool {
 	}
 	defer file.Close()
 
-	// Variables to check if the rooms that are linked exist
+	// Variables to check if the Room that are linked exist
 	startingroom := false
 	endingroom := false
 
@@ -40,7 +40,7 @@ func (RoomArray *RoomStruct) ReadFile(filename string) bool {
 				fmt.Println("Error: Invalid number of Ants")
 				return false
 			} else {
-				RoomArray.Ants = numberofants
+				RoomArray.AntCount = numberofants
 			}
 			first = false
 		}
@@ -49,7 +49,7 @@ func (RoomArray *RoomStruct) ReadFile(filename string) bool {
 		roomarray := strings.Split(line, " ")
 		linkarray := strings.Split(line, "-")
 
-		// Handle rooms and links
+		// Handle Room and links
 		if len(roomarray) == 3 && startingroom {
 			coordinate_x, err1 := strconv.Atoi(roomarray[1])
 			coordinate_y, err2 := strconv.Atoi(roomarray[2])
@@ -61,13 +61,13 @@ func (RoomArray *RoomStruct) ReadFile(filename string) bool {
 				return false
 			} else {
 				// Storing the room values into a struct
-				SingleRoom := Rooms{
-					Name:    roomarray[0],
-					X_value: coordinate_x,
-					Y_value: coordinate_y,
+				SingleRoom := ARoom{
+					Name:        roomarray[0],
+					XCoordinate: coordinate_x,
+					YCoordinate: coordinate_y,
 				}
-				RoomArray.StartingRoom = SingleRoom
-				RoomArray.AllRooms = append(RoomArray.AllRooms, SingleRoom)
+				RoomArray.StartRoom = SingleRoom
+				RoomArray.Rooms = append(RoomArray.Rooms, SingleRoom)
 				startingroom = false
 			}
 		} else if len(roomarray) == 3 && endingroom {
@@ -81,13 +81,13 @@ func (RoomArray *RoomStruct) ReadFile(filename string) bool {
 				return false
 			} else {
 				// Storing the room values into a struct
-				SingleRoom := Rooms{
-					Name:    roomarray[0],
-					X_value: coordinate_x,
-					Y_value: coordinate_y,
+				SingleRoom := ARoom{
+					Name:        roomarray[0],
+					XCoordinate: coordinate_x,
+					YCoordinate: coordinate_y,
 				}
-				RoomArray.EndingRoom = SingleRoom
-				RoomArray.AllRooms = append(RoomArray.AllRooms, SingleRoom)
+				RoomArray.EndRoom = SingleRoom
+				RoomArray.Rooms = append(RoomArray.Rooms, SingleRoom)
 				endingroom = false
 			}
 		} else if len(roomarray) == 3 {
@@ -100,12 +100,12 @@ func (RoomArray *RoomStruct) ReadFile(filename string) bool {
 				fmt.Println("Error: Invalid room name (L or #)")
 				return false
 			} else {
-				SingleRoom := Rooms{
-					Name:    roomarray[0],
-					X_value: coordinate_x,
-					Y_value: coordinate_y,
+				SingleRoom := ARoom{
+					Name:        roomarray[0],
+					XCoordinate: coordinate_x,
+					YCoordinate: coordinate_y,
 				}
-				RoomArray.AllRooms = append(RoomArray.AllRooms, SingleRoom)
+				RoomArray.Rooms = append(RoomArray.Rooms, SingleRoom)
 			}
 		} else if len(linkarray) == 2 {
 			// Checking if a room is linked to itself
@@ -117,11 +117,11 @@ func (RoomArray *RoomStruct) ReadFile(filename string) bool {
 			exist1, exist2 := false, false
 			index1, index2 := 0, 0
 			// Iterating over all room names to check if the link is valid
-			for i := 0; i < len(RoomArray.AllRooms); i++ {
-				if RoomArray.AllRooms[i].Name == linkarray[0] {
+			for i := 0; i < len(RoomArray.Rooms); i++ {
+				if RoomArray.Rooms[i].Name == linkarray[0] {
 					exist1 = true
 					index1 = i
-				} else if RoomArray.AllRooms[i].Name == linkarray[1] {
+				} else if RoomArray.Rooms[i].Name == linkarray[1] {
 					exist2 = true
 					index2 = i
 				}
@@ -131,12 +131,12 @@ func (RoomArray *RoomStruct) ReadFile(filename string) bool {
 				fmt.Println("Error: Invalid Room Name (Doesn't exist)")
 				return false
 			} else {
-				RoomArray.AllRooms[index1].Links = append(RoomArray.AllRooms[index1].Links, linkarray[1])
-				RoomArray.AllRooms[index2].Links = append(RoomArray.AllRooms[index2].Links, linkarray[0])
+				RoomArray.Rooms[index1].Links = append(RoomArray.Rooms[index1].Links, linkarray[1])
+				RoomArray.Rooms[index2].Links = append(RoomArray.Rooms[index2].Links, linkarray[0])
 			}
 		}
 
-		// Checking for start and end rooms
+		// Checking for start and end Room
 		if line == "##start" {
 			startcount++
 			startingroom = true
@@ -156,7 +156,7 @@ func (RoomArray *RoomStruct) ReadFile(filename string) bool {
 	}
 
 	// Now check for uniqueness and coordinates in a separate function
-	if !CheckRoomUniquenessAndCoordinates(RoomArray) {
+	if !CheckRoomUniqueness(RoomArray) {
 		return false
 	}
 

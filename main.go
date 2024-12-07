@@ -15,35 +15,34 @@ func main() {
 
 	//Storing the filename into a variable
 	filename := os.Args[1]
-	RoomStruct := functions.RoomStruct{}
+	Graph := functions.Graph{}
 
 	//Checking if the file is valid or not
-	correctfile := RoomStruct.ReadFile(filename)
-	if !correctfile {
+	file := Graph.ReadFile(filename)
+	if !file {
 		fmt.Println("Error: problem reading file")
 		return
 	}
 
-	//Storing the Rooms info on a struct with their Name as key to that value
-	RoomMap := make(map[string]*functions.Rooms)
-	for i := 0; i < len(RoomStruct.AllRooms); i++ {
-		RoomMap[RoomStruct.AllRooms[i].Name] = &RoomStruct.AllRooms[i]
+	//Storing the Room info on a struct with their Name as key to that value
+	RoomMap := make(map[string]*functions.ARoom)
+	for i := 0; i < len(Graph.Rooms); i++ {
+		RoomMap[Graph.Rooms[i].Name] = &Graph.Rooms[i]
 	}
 
 	//Getting all the possible path using the BFS Algorithm
-	Paths := functions.FindAllPathsBFS(RoomMap, RoomStruct.StartingRoom.Name, RoomStruct.EndingRoom.Name)
+	Paths := functions.GetAllPaths(RoomMap, Graph.StartRoom.Name, Graph.EndRoom.Name)
 
-	//Printing all the possible paths
+	//Prints all the possible paths
 	// fmt.Println(Paths)
 
-	//Filtering the solution to get the most path possibles that doesn't use similar rooms
-	BestPath := functions.FilterPath(Paths, RoomStruct.StartingRoom.Name, RoomStruct.EndingRoom.Name)
-	fmt.Println("---------------------------------------------------------------------------------------")
-	fmt.Println("Best paths: ", BestPath)
-	fmt.Println("---------------------------------------------------------------------------------------")
+	//Filtering the solution to get the most path possibles that doesn't use similar Room
+	BestPath := functions.FilterPath(Paths, Graph.StartRoom.Name, Graph.EndRoom.Name)
+
+	// fmt.Println("Best paths: ", BestPath)
 
 	//Distribution of the Ants into the room they are going to use
-	ant := functions.DistributeAnts(BestPath, RoomStruct.Ants)
+	ant := functions.PlaceAnts(BestPath, Graph.AntCount)
 	for i := 0; i < len(ant); i++ {
 		fmt.Println("Path number:", i+1, "|| Ants in this path:", ant[i])
 	}
