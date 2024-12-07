@@ -10,9 +10,7 @@ func CheckRoomUniqueness(RoomArray *Graph) bool {
 	for i := 0; i < len(RoomArray.Rooms); i++ {
 		for j := i + 1; j < len(RoomArray.Rooms); j++ {
 			if RoomArray.Rooms[i].Name == RoomArray.Rooms[j].Name {
-				fmt.Println("------------------------------")
 				fmt.Println(" Error: Room are not unique")
-				fmt.Println("------------------------------")
 				return false
 			}
 		}

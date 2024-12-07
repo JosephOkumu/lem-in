@@ -43,12 +43,8 @@ func main() {
 
 	//Distribution of the Ants into the room they are going to use
 	ant := functions.PlaceAnts(BestPath, Graph.AntCount)
-	for i := 0; i < len(ant); i++ {
-		fmt.Println("Path number:", i+1, "|| Ants in this path:", ant[i])
-	}
 
 	//Moving the Ants on the path and printing their movements
-	fmt.Println("---------------------------------------------------------------------------------------")
 	functions.SimulateAntMovement(BestPath, ant)
-	fmt.Println("---------------------------------------------------------------------------------------")
+	
 }
