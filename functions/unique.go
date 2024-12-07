@@ -20,7 +20,7 @@ func CheckRoomUniqueness(RoomArray *Graph) bool {
 	for i := 0; i < len(RoomArray.Rooms); i++ {
 		for j := i + 1; j < len(RoomArray.Rooms); j++ {
 			if RoomArray.Rooms[i].XCoordinate == RoomArray.Rooms[j].XCoordinate && RoomArray.Rooms[i].YCoordinate == RoomArray.Rooms[j].YCoordinate {
-				fmt.Println("Error: Multiple Room with the same coordinates")
+				fmt.Println("ERROR: invalid data format, multiple Room with the same coordinates")
 				return false
 			}
 		}
