@@ -13,6 +13,7 @@ func (RoomArray *Graph) ReadFile(filename string) bool {
 	// Opening the file
 	file, err := os.Open("./examples/" + filename)
 	if err != nil {
+		fmt.Println("ERROR: invalid data format, file does not exist.")
 		return false
 	}
 	defer file.Close()
@@ -29,15 +30,15 @@ func (RoomArray *Graph) ReadFile(filename string) bool {
 	first := true
 
 	// Going through the file line by line
-	fileScanner := bufio.NewScanner(file)
-	for fileScanner.Scan() {
-		line := fileScanner.Text()
+	Scanner := bufio.NewScanner(file)
+	for Scanner.Scan() {
+		line := Scanner.Text()
 
 		// Handle the first line for Ants count
 		if first {
 			numberofants, err := strconv.Atoi(line)
 			if err != nil || numberofants < 1 {
-				fmt.Println("Error: Invalid number of Ants")
+				fmt.Println("ERROR: invalid data format, invalid number of Ants")
 				return false
 			} else {
 				RoomArray.AntCount = numberofants
@@ -54,10 +55,10 @@ func (RoomArray *Graph) ReadFile(filename string) bool {
 			coordinate_x, err1 := strconv.Atoi(roomarray[1])
 			coordinate_y, err2 := strconv.Atoi(roomarray[2])
 			if err1 != nil || err2 != nil {
-				fmt.Println("Error: Invalid coordinates (No ints)")
+				fmt.Println("ERROR: invalid data format, invalid coordinates (No ints)")
 				return false
 			} else if roomarray[0][0] == '#' || roomarray[0][0] == 'L' {
-				fmt.Println("Error: Invalid room name (L or #)")
+				fmt.Println("ERROR: invalid data format, invalid room name (L or #)")
 				return false
 			} else {
 				// Storing the room values into a struct
@@ -74,10 +75,10 @@ func (RoomArray *Graph) ReadFile(filename string) bool {
 			coordinate_x, err1 := strconv.Atoi(roomarray[1])
 			coordinate_y, err2 := strconv.Atoi(roomarray[2])
 			if err1 != nil || err2 != nil {
-				fmt.Println("Error: Invalid coordinates (No ints)")
+				fmt.Println("ERROR: invalid data format, invalid coordinates (No ints)")
 				return false
 			} else if roomarray[0][0] == '#' || roomarray[0][0] == 'L' {
-				fmt.Println("Error: Invalid room name (L or #)")
+				fmt.Println("ERROR: invalid data format, invalid room name (L or #)")
 				return false
 			} else {
 				// Storing the room values into a struct
@@ -94,10 +95,10 @@ func (RoomArray *Graph) ReadFile(filename string) bool {
 			coordinate_x, err1 := strconv.Atoi(roomarray[1])
 			coordinate_y, err2 := strconv.Atoi(roomarray[2])
 			if err1 != nil || err2 != nil {
-				fmt.Println("Error: Invalid coordinates (No ints)")
+				fmt.Println("ERROR: invalid data format, invalid coordinates (No ints)")
 				return false
 			} else if roomarray[0][0] == '#' || roomarray[0][0] == 'L' {
-				fmt.Println("Error: Invalid room name (L or #)")
+				fmt.Println("ERROR: invalid data format, invalid room name (L or #)")
 				return false
 			} else {
 				SingleRoom := ARoom{
@@ -110,7 +111,7 @@ func (RoomArray *Graph) ReadFile(filename string) bool {
 		} else if len(linkarray) == 2 {
 			// Checking if a room is linked to itself
 			if linkarray[0] == linkarray[1] {
-				fmt.Println("Error: Cannot link a room to itself")
+				fmt.Println("ERROR: invalid data format, cannot link a room to itself")
 				return false
 			}
 
@@ -128,7 +129,7 @@ func (RoomArray *Graph) ReadFile(filename string) bool {
 			}
 
 			if !exist1 || !exist2 {
-				fmt.Println("Error: Invalid Room Name (Doesn't exist)")
+				fmt.Println("ERROR: invalid data format, invalid Room Name (Doesn't exist)")
 				return false
 			} else {
 				RoomArray.Rooms[index1].Links = append(RoomArray.Rooms[index1].Links, linkarray[1])
@@ -148,10 +149,10 @@ func (RoomArray *Graph) ReadFile(filename string) bool {
 
 	// Check if there is exactly one start and one end
 	if startcount != 1 {
-		fmt.Println("Error: No starting point")
+		fmt.Println("ERROR: invalid data format, no start room")
 		return false
 	} else if endcount != 1 {
-		fmt.Println("Error: No ending point")
+		fmt.Println("ERROR: invalid data format, no end room")
 		return false
 	}
 
